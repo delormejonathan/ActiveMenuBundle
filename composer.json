@@ -1,6 +1,6 @@
 {
     "name": "delormejonathan/active-menu-bundle",
-    "type": "library",
+    "type": "symfony-bundle",
     "description": "A Symfony extension to get active class base on current bundle/controller/action",
     "keywords": ["delormejonathan", "menu", "active", "symfony"],
     "homepage": "https://github.com/delormejonathan/ActiveMenuBundle",
@@ -16,6 +16,6 @@
         "symfony/framework-bundle": "^2.8|^3.0"
     },
     "autoload": {
-        "psr-0": { "DelormeJonathan\\ActiveMenuBundle": "" }
+        "psr-4": { "DelormeJonathan\\ActiveMenuBundle\\": "" }
     }
 }
