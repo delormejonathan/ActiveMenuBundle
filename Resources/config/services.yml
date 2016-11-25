@@ -1,0 +1,6 @@
+services:
+    delormejonathan.twig.activemenu:
+        class: DelormeJonathan\ActiveMenuBundle\Twig\DelormeJonathanActiveMenuExtension
+        arguments:  ["@request_stack"]
+        tags:
+            - { name: 'twig.extension' }
