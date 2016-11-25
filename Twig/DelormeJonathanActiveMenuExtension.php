@@ -16,7 +16,12 @@ class DelormeJonathanActiveMenuExtension extends \Twig_Extension
      */
     public function __construct(RequestStack $request)
     {
-        $this->controllerName = $request->getCurrentRequest()->get('_controller');
+        $request = $request->getCurrentRequest();
+
+        if ($request)
+            $this->controllerName = $request->get('_controller');
+        else
+            $this->controllerName = null;
     }
 
     public function getFunctions()
