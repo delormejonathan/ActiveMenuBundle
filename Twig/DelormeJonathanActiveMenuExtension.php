@@ -43,7 +43,7 @@ class DelormeJonathanActiveMenuExtension extends \Twig_Extension
 
     public function getBundleName()
     {
-        preg_match("#^([a-zA-Z]*)Bundle\\\Controller#", $this->controllerName, $matches);
+        preg_match("#^([\\a-zA-Z]*)Bundle\\\Controller#", $this->controllerName, $matches);
 
         if (isset ($matches[1]))
             return $matches[1];
