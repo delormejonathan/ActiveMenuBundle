@@ -37,7 +37,7 @@ class DelormeJonathanActiveMenuExtension extends \Twig_Extension
         return array(
             new \Twig_SimpleFilter('is_bundle_active', array($this, 'isBundleActive')),
             new \Twig_SimpleFilter('is_controller_active', array($this, 'isControllerActive')),
-            new \Twig_SimpleFilter('is_action_active', array($this, 'isActionName')),
+            new \Twig_SimpleFilter('is_action_active', array($this, 'isActionActive')),
         );
     }
 
@@ -81,27 +81,38 @@ class DelormeJonathanActiveMenuExtension extends \Twig_Extension
             return false;
     }
 
-    public function isBundleActive($bundle, $class = null)
+    public function isBundleActive($bundle, $class = 'active')
     {
-        if ($this->getBundleName() == $bundle)
+        if ($this->getBundleName() == $bundle) {
             return $class ? $class : null;
-        else
-            return false;
+        }
+        
+        return false;
     }
 
-    public function isControllerActive($controller, $class = null)
+    public function isControllerActive($controller, $class = 'active')
     {
-        if ($this->getControllerName() == $controller || $this->getFullControllerName() == $controller)
+        if ($this->getControllerName() == $controller || $this->getFullControllerName() == $controller) {
             return $class ? $class : null;
-        else
-            return false;
+        }
+
+        return false;
     }
 
-    public function isActionActive($action, $class = null)
+    public function isActionActive($action, $class = 'active')
     {
-        if ($this->getActionName() == $action)
+        if (is_array($action)) {
+            foreach ($action as $controller => $action) {
+                if ($this->getControllerName() == $controller || $this->getActionName() == $action) {
+                    return $class;
+                }
+            }
+        }
+
+        if ($this->getActionName() == $action) {
             return $class ? $class : null;
-        else
-            return false;
+        }
+            
+        return false;
     }
 }
