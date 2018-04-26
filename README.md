@@ -50,3 +50,11 @@ It works with both full and short paths
 <!-- classname is the string returned if controller matchs (you can replace it by 'active' or 'current') -->
 <li class="{{ 'list' | is_action_active('classname') }}"></li>
 ```
+
+
+**Combined controller/action filter**
+
+```html
+<!-- classname is the string returned if controller matchs (you can replace it by 'active' or 'current') -->
+<li class="{{ { 'Elements' : 'list' } | is_action_active('classname') }}"></li>
+```
