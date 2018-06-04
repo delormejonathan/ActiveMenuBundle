@@ -92,8 +92,16 @@ class DelormeJonathanActiveMenuExtension extends \Twig_Extension
 
     public function isControllerActive($controller, $class = 'active')
     {
+        if (is_array($controller)) {
+            foreach ($controller as $item) {
+                if ($this->getControllerName() == $item || $this->getFullControllerName() == $item) {
+                    return $class;
+                }
+            }
+        }
+
         if ($this->getControllerName() == $controller || $this->getFullControllerName() == $controller) {
-            return $class ? $class : null;
+            return $class;
         }
 
         return false;
