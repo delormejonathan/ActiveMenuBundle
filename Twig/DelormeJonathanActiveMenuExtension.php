@@ -111,7 +111,7 @@ class DelormeJonathanActiveMenuExtension extends \Twig_Extension
     {
         if (is_array($action)) {
             foreach ($action as $controller => $action) {
-                if ($this->getControllerName() == $controller || $this->getActionName() == $action) {
+                if ($this->getControllerName() == $controller && $this->getActionName() == $action) {
                     return $class;
                 }
             }
