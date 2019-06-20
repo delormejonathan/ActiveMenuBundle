@@ -116,9 +116,10 @@ class DelormeJonathanActiveMenuExtension extends \Twig_Extension
                 }
             }
         }
-
-        if ($this->getActionName() == $action) {
-            return $class ? $class : null;
+        else {
+            if ($this->getActionName() == $action) {
+                return $class ? $class : null;
+            }
         }
             
         return false;
