@@ -56,5 +56,5 @@ It works with both full and short paths
 
 ```html
 <!-- classname is the string returned if controller matchs (you can replace it by 'active' or 'current') -->
-<li class="{{ { 'Elements' : 'list' } | is_action_active('classname') }}"></li>
+<li class="{{ [ 'Elements::list' ] | is_action_active('classname') }}"></li>
 ```
