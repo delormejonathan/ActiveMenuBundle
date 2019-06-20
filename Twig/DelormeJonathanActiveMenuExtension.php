@@ -110,7 +110,8 @@ class DelormeJonathanActiveMenuExtension extends \Twig_Extension
     public function isActionActive($action, $class = 'active')
     {
         if (is_array($action)) {
-            foreach ($action as $controller => $action) {
+            foreach ($action as $item) {
+                list($controller, $action) = explode('::', $item);
                 if ($this->getControllerName() == $controller && $this->getActionName() == $action) {
                     return $class;
                 }
