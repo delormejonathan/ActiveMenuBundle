@@ -9,19 +9,15 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class DelormeJonathanActiveMenuExtension extends \Twig_Extension
 {
-    protected $controllerName;
+    private $request;
+    private $controllerName;
 
     /**
      * @param RequestStack $request
      */
     public function __construct(RequestStack $request)
     {
-        $request = $request->getCurrentRequest();
-
-        if ($request)
-            $this->controllerName = $request->get('_controller');
-        else
-            $this->controllerName = null;
+        $this->request = $request;
     }
 
     public function getFunctions()
@@ -32,6 +28,7 @@ class DelormeJonathanActiveMenuExtension extends \Twig_Extension
             new \Twig_SimpleFunction('action_name', array($this, 'getActionName')),
         );
     }
+    
     public function getFilters()
     {
         return array(
@@ -43,6 +40,10 @@ class DelormeJonathanActiveMenuExtension extends \Twig_Extension
 
     public function getBundleName()
     {
+        if (! $this->controllerName) {
+            $this->controllerName = $this->request->getCurrentRequest()->get('_controller');
+        }
+
         preg_match("#^([\\a-zA-Z]*)Bundle\\\Controller#", $this->controllerName, $matches);
 
         if (isset ($matches[1]))
@@ -53,6 +54,10 @@ class DelormeJonathanActiveMenuExtension extends \Twig_Extension
 
     public function getControllerName()
     {
+        if (! $this->controllerName) {
+            $this->controllerName = $this->request->getCurrentRequest()->get('_controller');
+        }
+
         preg_match("#Controller\\\([a-zA-Z]*)Controller#", $this->controllerName, $matches);
 
         if (isset ($matches[1]))
@@ -63,6 +68,10 @@ class DelormeJonathanActiveMenuExtension extends \Twig_Extension
 
     public function getFullControllerName()
     {
+        if (! $this->controllerName) {
+            $this->controllerName = $this->request->getCurrentRequest()->get('_controller');
+        }
+
         preg_match("#^([\\a-zA-Z]*)::#", $this->controllerName, $matches);
 
         if (isset ($matches[1]))
@@ -73,6 +82,10 @@ class DelormeJonathanActiveMenuExtension extends \Twig_Extension
 
     public function getActionName()
     {
+        if (! $this->controllerName) {
+            $this->controllerName = $this->request->getCurrentRequest()->get('_controller');
+        }
+
         preg_match("#::([a-zA-Z]*)Action#", $this->controllerName, $matches);
 
         if (isset ($matches[1]))
