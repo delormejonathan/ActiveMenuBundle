@@ -3,11 +3,14 @@
 namespace DelormeJonathan\ActiveMenuBundle\Twig;
 
 use Symfony\Component\HttpFoundation\RequestStack;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 /**
  * @author Jonathan DELORME <delorme.jonathan@gmail.com>
  */
-class DelormeJonathanActiveMenuExtension extends \Twig_Extension
+class DelormeJonathanActiveMenuExtension extends AbstractExtension
 {
     private $request;
     private $controllerName;
@@ -23,18 +26,18 @@ class DelormeJonathanActiveMenuExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('bundle_name', array($this, 'getBundleName')),
-            new \Twig_SimpleFunction('controller_name', array($this, 'getControllerName')),
-            new \Twig_SimpleFunction('action_name', array($this, 'getActionName')),
+            new TwigFunction('bundle_name', array($this, 'getBundleName')),
+            new TwigFunction('controller_name', array($this, 'getControllerName')),
+            new TwigFunction('action_name', array($this, 'getActionName')),
         );
     }
     
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('is_bundle_active', array($this, 'isBundleActive')),
-            new \Twig_SimpleFilter('is_controller_active', array($this, 'isControllerActive')),
-            new \Twig_SimpleFilter('is_action_active', array($this, 'isActionActive')),
+            new TwigFilter('is_bundle_active', array($this, 'isBundleActive')),
+            new TwigFilter('is_controller_active', array($this, 'isControllerActive')),
+            new TwigFilter('is_action_active', array($this, 'isActionActive')),
         );
     }
 
@@ -87,6 +90,11 @@ class DelormeJonathanActiveMenuExtension extends \Twig_Extension
         }
 
         preg_match("#::([a-zA-Z]*)Action#", $this->controllerName, $matches);
+
+        if (isset ($matches[1]))
+            return $matches[1];
+
+        preg_match("#::([a-zA-Z]*)#", $this->controllerName, $matches);
 
         if (isset ($matches[1]))
             return $matches[1];
