@@ -12,7 +12,8 @@
         }
     ],
     "require": {
-        "symfony/framework-bundle": ">=2.8"
+        "symfony/framework-bundle": ">=3.4",
+        "twig/twig": ">=2.10"
     },
     "autoload": {
         "psr-4": { "DelormeJonathan\\ActiveMenuBundle\\": "" }
