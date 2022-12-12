@@ -23,83 +23,103 @@ class DelormeJonathanActiveMenuExtension extends AbstractExtension
         $this->request = $request;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
-        return array(
-            new TwigFunction('bundle_name', array($this, 'getBundleName')),
-            new TwigFunction('controller_name', array($this, 'getControllerName')),
-            new TwigFunction('action_name', array($this, 'getActionName')),
-        );
-    }
-    
-    public function getFilters()
-    {
-        return array(
-            new TwigFilter('is_bundle_active', array($this, 'isBundleActive')),
-            new TwigFilter('is_controller_active', array($this, 'isControllerActive')),
-            new TwigFilter('is_action_active', array($this, 'isActionActive')),
-        );
+        return [
+            new TwigFunction('bundle_name', [$this, 'getBundleName']),
+            new TwigFunction('controller_name', [$this, 'getControllerName']),
+            new TwigFunction('action_name', [$this, 'getActionName']),
+        ];
     }
 
-    public function getBundleName()
+    public function getFilters(): array
     {
-        if (! $this->controllerName) {
+        return [
+            new TwigFilter('is_bundle_active', [$this, 'isBundleActive']),
+            new TwigFilter('is_controller_active', [$this, 'isControllerActive']),
+            new TwigFilter('is_action_active', [$this, 'isActionActive']),
+        ];
+    }
+
+    public function getBundleName(): ?string
+    {
+        if (!$this->controllerName) {
             $this->controllerName = $this->request->getCurrentRequest()->get('_controller');
         }
 
         preg_match("#^([\\a-zA-Z]*)Bundle\\\Controller#", $this->controllerName, $matches);
 
-        if (isset ($matches[1]))
+        if (isset ($matches[1])) {
             return $matches[1];
-        else
-            return null;
+        }
+
+        return null;
     }
 
-    public function getControllerName()
+    public function getBundleClass()
     {
-        if (! $this->controllerName) {
+        if (!$this->controllerName) {
+            $this->controllerName = $this->request->getCurrentRequest()->get('_controller');
+        }
+
+        preg_match("#^([\\a-zA-Z]*)\\\Controller#", $this->controllerName, $matches);
+
+        if (isset ($matches[1])) {
+            return sprintf('%s\\%s', $matches[1], $matches[1]);
+        }
+
+        return null;
+    }
+
+    public function getControllerName(): string
+    {
+        if (!$this->controllerName) {
             $this->controllerName = $this->request->getCurrentRequest()->get('_controller');
         }
 
         preg_match("#Controller\\\([a-zA-Z]*)Controller#", $this->controllerName, $matches);
 
-        if (isset ($matches[1]))
+        if (isset ($matches[1])) {
             return $matches[1];
-        else
-            return false;
+        }
+
+        return false;
     }
 
     public function getFullControllerName()
     {
-        if (! $this->controllerName) {
+        if (!$this->controllerName) {
             $this->controllerName = $this->request->getCurrentRequest()->get('_controller');
         }
 
         preg_match("#^([\\a-zA-Z]*)::#", $this->controllerName, $matches);
 
-        if (isset ($matches[1]))
+        if (isset ($matches[1])) {
             return str_replace('\\', '', $matches[1]);
-        else
-            return false;
+        }
+
+        return false;
     }
 
-    public function getActionName()
+    public function getActionName(): string
     {
-        if (! $this->controllerName) {
+        if (!$this->controllerName) {
             $this->controllerName = $this->request->getCurrentRequest()->get('_controller');
         }
 
         preg_match("#::([a-zA-Z]*)Action#", $this->controllerName, $matches);
 
-        if (isset ($matches[1]))
+        if (isset ($matches[1])) {
             return $matches[1];
+        }
 
         preg_match("#::([a-zA-Z]*)#", $this->controllerName, $matches);
 
-        if (isset ($matches[1]))
+        if (isset ($matches[1])) {
             return $matches[1];
-        else
-            return false;
+        }
+
+        return false;
     }
 
     public function isBundleActive($bundle, $class = 'active')
@@ -107,7 +127,7 @@ class DelormeJonathanActiveMenuExtension extends AbstractExtension
         if ($this->getBundleName() == $bundle) {
             return $class ? $class : null;
         }
-        
+
         return false;
     }
 
@@ -137,13 +157,12 @@ class DelormeJonathanActiveMenuExtension extends AbstractExtension
                     return $class;
                 }
             }
-        }
-        else {
+        } else {
             if ($this->getActionName() == $action) {
                 return $class ? $class : null;
             }
         }
-            
+
         return false;
     }
 }
