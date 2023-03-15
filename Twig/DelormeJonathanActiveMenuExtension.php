@@ -77,7 +77,7 @@ class DelormeJonathanActiveMenuExtension extends AbstractExtension
             $this->controllerName = $this->request->getCurrentRequest()->get('_controller');
         }
 
-        preg_match("#Controller\\\([a-zA-Z]*)Controller#", $this->controllerName, $matches);
+        preg_match("#Controller\\\([a-zA-Z\\\]+)Controller#", $this->controllerName, $matches);
 
         if (isset ($matches[1])) {
             return $matches[1];
